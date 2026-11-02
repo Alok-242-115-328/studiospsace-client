@@ -1,0 +1,36 @@
+export default function HowItWorks() {
+  const steps = [
+    { id: 1, title: "Discover Spaces", desc: "Browse through our curated list of premium creative studios.", icon: "🔍" },
+    { id: 2, title: "Select Shoot Hours", desc: "Choose your desired dates and times for the booking.", icon: "📅" },
+    { id: 3, title: "Book Instantly", desc: "Secure your slot with transparent pricing and instant confirmation.", icon: "⚡" },
+    { id: 4, title: "Create & Produce", desc: "Show up, get creative, and bring your vision to life.", icon: "🎬" },
+  ];
+
+  return (
+    <section className="py-20 bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+            How Booking Works
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Get your creative space booked in four simple steps.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step) => (
+            <div key={step.id} className="relative bg-white dark:bg-gray-950 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 text-center hover:shadow-md transition-shadow">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-md">
+                {step.id}
+              </div>
+              <div className="text-5xl mb-4 mt-2">{step.icon}</div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{step.title}</h3>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

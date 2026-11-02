@@ -1,26 +1,155 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* রাউন্ড এবং গ্লোয়িং লাইট পার্পল অ্যানিমেশন */
+@keyframes purple-glow {
+  0% {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3), inset 0 0 10px rgba(168, 85, 247, 0.1);
+    border-color: rgba(168, 85, 247, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(168, 85, 247, 0.8), inset 0 0 20px rgba(168, 85, 247, 0.2);
+    border-color: rgba(168, 85, 247, 1);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3), inset 0 0 10px rgba(168, 85, 247, 0.1);
+    border-color: rgba(168, 85, 247, 0.4);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.auth-card {
+  animation: purple-glow 2.5s infinite ease-in-out;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 2.5rem;
+}
+
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Auth Card Animation */
+@keyframes purple-glow {
+  0% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); border-color: rgba(168, 85, 247, 0.4); }
+  50% { box-shadow: 0 0 35px rgba(168, 85, 247, 0.8); border-color: rgba(168, 85, 247, 1); }
+  100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); border-color: rgba(168, 85, 247, 0.4); }
+}
+.auth-card {
+  animation: purple-glow 2.5s infinite ease-in-out;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 2.5rem;
+}
+
+/* 404 Page SVG Animations (Speeded Up) */
+#svg-global {
+  overflow: visible;
+}
+
+@keyframes fade-particles {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(-20px); opacity: 0; }
+}
+
+/* প্লোটিং স্পিড বাড়ানো হয়েছে (5s থেকে 2s) */
+#particles { animation: fade-particles 2s infinite alternate; }
+.particle { animation: floatUp linear infinite; }
+
+/* পার্টিকেলগুলোর স্পিড অর্ধেক করা হয়েছে */
+.p1 { animation-duration: 1s; animation-delay: 0s; }
+.p2 { animation-duration: 1.2s; animation-delay: 0.15s; }
+.p3 { animation-duration: 0.9s; animation-delay: 0.3s; }
+.p4 { animation-duration: 1.4s; animation-delay: 0.1s; }
+.p5 { animation-duration: 1.1s; animation-delay: 0.2s; }
+.p6 { animation-duration: 1.5s; animation-delay: 0.05s; }
+.p7 { animation-duration: 1s; animation-delay: 0.25s; }
+.p8 { animation-duration: 1.3s; animation-delay: 0.1s; }
+.p9 { animation-duration: 1.2s; animation-delay: 0.15s; }
+
+@keyframes bounce-lines {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* বাউন্সিং স্পিড বাড়ানো হয়েছে (3s থেকে 1.5s) */
+#line-v1, #line-v2, #node-server, #panel-rigth, #reflectores, #particles {
+  animation: bounce-lines 1.5s ease-in-out infinite alternate;
+}
+#line-v2 { animation-delay: 0.1s; }
+#node-server, #panel-rigth, #reflectores, #particles { animation-delay: 0.2s; }
+
+/* 404 Text Floating Animation (একটু ফাস্ট করা হয়েছে) */
+@keyframes floatText {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.floating-404 {
+  animation: floatText 2s ease-in-out infinite;
+}
+
+
+/* Running Border Animation */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin-border {
+  100% {
+    --border-angle: 360deg;
+  }
+}
+
+/* Outer Wrapper for the Glowing Border */
+.striking-border-wrapper {
+  position: relative;
+  padding: 3px; /* Border thickness */
+  border-radius: 9999px;
+  overflow: hidden;
+  display: inline-flex;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.striking-border-wrapper:hover {
+  transform: scale(1.05); /* Hover zoom effect */
+}
+
+/* The running gradient */
+.striking-border-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: conic-gradient(
+    from var(--border-angle),
+    #9333ea, #ec4899, #06b6d4, #3b82f6, #10b981, #9333ea
+  );
+  animation: spin-border 2s linear infinite; /* Fast spinning */
+  z-index: -1;
+}
+
+/* The inner solid button */
+.striking-border-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #9333ea; /* Purple-600 */
+  border-radius: 9999px;
+  padding: 0.875rem 2rem; /* py-3.5 px-8 */
+  color: white;
+  font-weight: 700;
+  font-size: 1.125rem; /* text-lg */
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.striking-border-inner:hover {
+  background-color: #7e22ce; /* Purple-700 on hover */
 }
