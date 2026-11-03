@@ -29,12 +29,7 @@ const slides = [
     title: "Broadcast Your Voice",
     subtitle: "Reserve quiet, acoustically treated podcast rooms and music suites for crystal clear audio recording.",
   },
-  {
-    id: 4,
-    image: "/sizep1739172212_png.jpg", 
-    title: "Capture Your Vision",
-    subtitle: "Book top-tier photography studios with professional cyclorama walls and state-of-the-art lighting equipment.",
-  },
+  
 ];
 
 export default function HeroSlider() {
@@ -91,14 +86,14 @@ export default function HeroSlider() {
                     </Link>
                   </div>
 
-                  {/* Host Your Space Button */}
-                  <Link
-                    href="/add-studio"
-                    className="px-8 py-3.5 w-full sm:w-auto rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white font-bold text-lg transition-all text-center"
-                  >
-                    Host Your Space
-                  </Link>
-                  
+                  {/* Host Your Space Button with Same Animation */}
+                  <div className="striking-border-wrapper w-full sm:w-auto">
+                    <Link href="/add-studio" className="striking-border-inner">
+                      Host Your Space
+                    </Link>
+                  </div>
+
+
                 </div>
               </div>
             </div>
