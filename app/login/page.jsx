@@ -15,22 +15,25 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
+    const handleLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       toast.error("Please enter email and password");
       return;
     }
+
     setLoading(true);
+    
     const result = await login(email, password);
     setLoading(false);
 
     if (result.success) {
-      toast.success("Logged in successfully!");
+      toast.success("Logged in successfully!"); // 👈 সফল লগইনের টোস্ট
       router.push("/");
     } else {
-      toast.error(result.message);
+      toast.error(result.message || "Login failed"); // 👈 ব্যর্থ লগইনের টোস্ট
     }
+  };
   };
 
   // 👇 আসল গুগল লগইন হ্যান্ডলার
@@ -47,7 +50,7 @@ export default function LoginPage() {
     } catch (error) {
       toast.error("Google Login Failed");
     }
-  };
+  
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12 bg-gray-50 dark:bg-gray-950 transition-colors duration-300">

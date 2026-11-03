@@ -47,6 +47,16 @@ export default function Navbar() {
     }
   };
 
+  const handleLogout = async () => {
+    await logout();
+    toast.success("Logged out successfully!");
+  };
+
+
+
+
+
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Explore Studios", href: "/studios" },
@@ -124,7 +134,7 @@ export default function Navbar() {
                       </button>
 
                       <div className="border-t border-gray-100 dark:border-gray-700 my-1"></div>
-                      <button onClick={logout} className="px-4 py-2 text-left hover:bg-red-50 dark:hover:bg-red-900/30 text-sm font-bold text-red-600 dark:text-red-400">Logout</button>
+                     <button onClick={handleLogout} className="px-4 py-2 text-left hover:bg-red-50 dark:hover:bg-red-900/30 text-sm font-bold text-red-600 dark:text-red-400">Logout</button>
                     </div>
                   )}
                 </div>
