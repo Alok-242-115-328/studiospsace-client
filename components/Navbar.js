@@ -29,17 +29,18 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-    const handleUpdateName = async (e) => {
+      const handleUpdateName = async (e) => {
     e.preventDefault();
     if (!newName.trim()) {
       toast.error("Name cannot be empty");
       return;
     }
     
-    // updateUser ফাংশনটি await করা হলো
+    // updateUser ফাংশনটি কল করা হলো
     const success = await updateUser(newName);
     
     if (success) {
+      toast.success("Name updated successfully!"); // 👈 এখানে টোস্ট যোগ করা হলো
       setIsModalOpen(false); 
     } else {
       toast.error("Failed to update name. Please try again.");
