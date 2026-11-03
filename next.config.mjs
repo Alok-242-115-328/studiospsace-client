@@ -10,6 +10,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com", // 👈 গুগলের ছবির জন্য নতুন যোগ করা হলো
       },
+      {
+        protocol: "https",
+        hostname: "i.ibb.co", // 👈 ImgBB-এর ডোমেইন যোগ করা হলো
+      },
     ],
   },
   turbopack: {
