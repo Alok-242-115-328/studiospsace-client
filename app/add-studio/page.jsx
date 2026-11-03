@@ -10,6 +10,7 @@ export default function AddStudioPage() {
   const { user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false); // ছবি আপলোডের স্টেট
 
   const [formData, setFormData] = useState({
     title: "", category: "Photo Studio", hourlyRate: "", securityDeposit: "", maxCapacity: "", location: "", image: "", overview: "",
@@ -17,6 +18,31 @@ export default function AddStudioPage() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // 👇 ডিভাইস থেকে ছবি আপলোড করার ফাংশন
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formDataImg = new FormData();
+    formDataImg.append("image", file);
+
+    try {
+      // ImgBB API-তে ছবি আপলোড
+      const res = await axios.post(
+        `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
+        formDataImg
+      );
+      const imageUrl = res.data.data.url;
+      setFormData((prev) => ({ ...prev, image: imageUrl })); // URL টি ফর্মে সেট করা
+      toast.success("Image uploaded successfully!");
+    } catch (error) {
+      toast.error("Image upload failed. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -94,9 +120,24 @@ export default function AddStudioPage() {
               <input type="number" name="maxCapacity" required onChange={handleChange} className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" placeholder="10" />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL</label>
-              <input type="url" name="image" required onChange={handleChange} className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" placeholder="https://example.com/image.jpg" />
+            {/* 👇 Image Upload Section */}
+            <div className="md:col-span-2 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Studio Image (ImgBB)</label>
+              <input 
+                type="file" 
+                accept="image/*"
+                onChange={handleImageUpload} 
+                className="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100" 
+              />
+              {uploading && <p className="text-sm text-purple-600 mt-2">Uploading image...</p>}
+              
+              {formData.image && (
+                <div className="mt-4">
+                  <p className="text-sm text-gray-500 mb-2">Image Preview:</p>
+                  <img src={formData.image} alt="Preview" className="h-32 w-auto rounded-lg object-cover border border-gray-200" />
+                  <input type="hidden" name="image" value={formData.image} />
+                </div>
+              )}
             </div>
 
             <div className="md:col-span-2">
@@ -110,8 +151,8 @@ export default function AddStudioPage() {
             </div>
           </div>
 
-          <button type="submit" disabled={loading} className="w-full py-3 mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-colors shadow-md">
-            {loading ? "Adding Studio..." : "Submit Studio"}
+          <button type="submit" disabled={loading || uploading} className="w-full py-3 mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-colors shadow-md disabled:opacity-50">
+            {loading ? "Adding Studio..." : uploading ? "Waiting for image upload..." : "Submit Studio"}
           </button>
         </form>
       </div>
