@@ -52,25 +52,23 @@ export function AuthProvider({ children }) {
     }
   };
 
-      const updateUser = async (newName) => {
+        const updateUser = async (newName) => {
     try {
       const res = await axios.put("https://studiospsace-server.onrender.com/api/auth/profile", 
         { name: newName }, 
         { withCredentials: true }
       );
       if (res.data.success) {
-        // prev ব্যবহার করা হলো যাতে স্টেট ঠিকমতো আপডেট হয়
-        setUser((prev) => ({ ...prev, name: newName })); 
-        toast.success("Name updated successfully!");
-        return true; // সফল হলে true রিটার্ন করবে
+        setUser((prev) => ({ ...prev, name: newName }));
+        return true;
       }
       return false;
     } catch (error) {
       console.error("Failed to update profile", error);
-      return false; // ব্যর্থ হলে false রিটার্ন করবে
+      return false;
     }
   };
-
+  
   return (
     <AuthContext.Provider value={{ user, login, logout, updateUser, loading }}>
       {children}
