@@ -29,18 +29,15 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-      const handleUpdateName = async (e) => {
+  const handleUpdateName = async (e) => {
     e.preventDefault();
     if (!newName.trim()) {
       toast.error("Name cannot be empty");
       return;
     }
-    
-    // updateUser ফাংশনটি কল করা হলো
     const success = await updateUser(newName);
-    
     if (success) {
-      toast.success("Name updated successfully!"); // 👈 এখানে টোস্ট যোগ করা হলো
+      toast.success("Name updated successfully!");
       setIsModalOpen(false); 
     } else {
       toast.error("Failed to update name. Please try again.");
@@ -52,11 +49,6 @@ export default function Navbar() {
     toast.success("Logged out successfully!");
   };
 
-
-
-
-
-
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Explore Studios", href: "/studios" },
@@ -66,7 +58,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors">
+      <header className="sticky top-0 z-50 w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             
@@ -97,17 +89,12 @@ export default function Navbar() {
               ))}
             </nav>
 
-            {/* Right Side: Auth & Theme */}
+            {/* Right Side: Auth & Theme (Desktop) */}
             <div className="hidden md:flex items-center gap-4">
-              
               <ThemeToggle /> 
-              
               {user ? (
-                // Authenticated State (Dropdown)
                 <div className="relative" ref={dropdownRef}>
                   <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center gap-3 focus:outline-none">
-                    
-                    {/* Google Avatar or Initial */}
                     <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-500 shadow-sm flex items-center justify-center bg-purple-200 dark:bg-purple-900 text-purple-800 dark:text-purple-200 font-bold text-lg">
                       {user.photoURL ? (
                         <img src={user.photoURL} alt="User Avatar" className="w-full h-full object-cover" />
@@ -115,7 +102,6 @@ export default function Navbar() {
                         user.name.charAt(0).toUpperCase()
                       )}
                     </div>
-                    
                     <span className="font-semibold text-gray-700 dark:text-gray-200">{user.name}</span>
                   </button>
 
@@ -125,21 +111,18 @@ export default function Navbar() {
                       <Link href="/add-studio" className="px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200">Add New Studio</Link>
                       <Link href="/my-listings" className="px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200">My Studio Listings</Link>
                       <Link href="/my-bookings" className="px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200">My Bookings</Link>
-                      
                       <button 
                         onClick={() => { setNewName(user.name); setIsModalOpen(true); setIsDropdownOpen(false); }} 
                         className="px-4 py-2 text-left hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-200"
                       >
                         Rename Profile
                       </button>
-
                       <div className="border-t border-gray-100 dark:border-gray-700 my-1"></div>
-                     <button onClick={handleLogout} className="px-4 py-2 text-left hover:bg-red-50 dark:hover:bg-red-900/30 text-sm font-bold text-red-600 dark:text-red-400">Logout</button>
+                      <button onClick={handleLogout} className="px-4 py-2 text-left hover:bg-red-50 dark:hover:bg-red-900/30 text-sm font-bold text-red-600 dark:text-red-400">Logout</button>
                     </div>
                   )}
                 </div>
               ) : (
-                // Unauthenticated State (Buttons)
                 <>
                   <Link href="/login" className="px-5 py-2.5 rounded-full text-sm font-semibold text-purple-700 dark:text-purple-300 bg-purple-100 dark:bg-purple-900/50 hover:bg-purple-200 dark:hover:bg-purple-900 transition-colors">
                     Login
@@ -151,17 +134,65 @@ export default function Navbar() {
               )}
             </div>
             
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button & Theme Toggle */}
             <div className="md:hidden flex items-center gap-4">
                <ThemeToggle />
                <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-600 dark:text-gray-300 hover:text-purple-600 focus:outline-none">
                 <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  {isMobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
                 </svg>
               </button>
             </div>
           </div>
         </div>
+
+        {/* 👇 Mobile Menu Dropdown (নতুন যোগ করা হলো) */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shadow-lg absolute w-full left-0 z-50">
+            <div className="px-4 pt-2 pb-4 space-y-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block px-3 py-2 rounded-md text-base font-medium ${
+                    pathname === link.href
+                      ? "text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30"
+                      : "text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-gray-50 dark:hover:bg-gray-800"
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <div className="pt-4 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-3">
+                {user ? (
+                  <>
+                    <div className="flex items-center gap-3 px-3 py-2 bg-gray-50 dark:bg-gray-800 rounded-lg mb-2">
+                       <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-500 bg-purple-200 dark:bg-purple-900 text-purple-800 dark:text-purple-200 flex items-center justify-center font-bold">
+                          {user.photoURL ? <img src={user.photoURL} alt="User" className="w-full h-full object-cover" /> : user.name.charAt(0).toUpperCase()}
+                       </div>
+                       <span className="font-bold text-gray-900 dark:text-white">{user.name}</span>
+                    </div>
+                    <Link href="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">Dashboard</Link>
+                    <Link href="/add-studio" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">Add New Studio</Link>
+                    <Link href="/my-listings" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">My Studio Listings</Link>
+                    <Link href="/my-bookings" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">My Bookings</Link>
+                    <button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="w-full text-left px-3 py-2 text-base font-bold text-red-600 dark:text-red-400 rounded-md hover:bg-red-50 dark:hover:bg-red-900/30">Logout</button>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="block text-center w-full px-4 py-2.5 rounded-full text-base font-semibold text-purple-700 bg-purple-100 hover:bg-purple-200 dark:text-purple-300 dark:bg-purple-900/50 transition-colors">Login</Link>
+                    <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="block text-center w-full px-4 py-2.5 rounded-full text-base font-semibold text-purple-700 bg-purple-100 hover:bg-purple-200 dark:text-purple-300 dark:bg-purple-900/50 transition-colors">Register</Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Rename Custom Modal */}
@@ -198,6 +229,5 @@ export default function Navbar() {
         </div>
       )}
     </>
-
   );
 }
