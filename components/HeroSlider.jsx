@@ -93,7 +93,7 @@ export default function HeroSlider() {
 
                   {/* Host Your Space Button */}
                   <Link
-                    href="/studios"
+                    href="/add-studio"
                     className="px-8 py-3.5 w-full sm:w-auto rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white font-bold text-lg transition-all text-center"
                   >
                     Host Your Space
