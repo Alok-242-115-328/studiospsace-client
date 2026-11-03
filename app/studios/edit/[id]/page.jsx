@@ -9,8 +9,8 @@ export default function EditStudioPage() {
   const { id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false); // 👈 নতুন স্টেট
-
+  const [uploading, setUploading] = useState(false);
+  
   const [formData, setFormData] = useState({
     title: "", category: "Photo Studio", hourlyRate: "", securityDeposit: "", maxCapacity: "", location: "", image: "", overview: ""
   });
@@ -31,7 +31,6 @@ export default function EditStudioPage() {
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  // 👇 ছবি আপলোডের ফাংশন (ImgBB)
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -45,8 +44,7 @@ export default function EditStudioPage() {
         `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
         formDataImg
       );
-      const imageUrl = res.data.data.url;
-      setFormData((prev) => ({ ...prev, image: imageUrl })); 
+      setFormData((prev) => ({ ...prev, image: res.data.data.url }));
       toast.success("New image uploaded successfully!");
     } catch (error) {
       toast.error("Image upload failed. Please try again.");
@@ -113,7 +111,13 @@ export default function EditStudioPage() {
               <input type="number" name="maxCapacity" value={formData.maxCapacity} onChange={handleChange} required className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" />
             </div>
 
-            {/* 👇 Update Image Section */}
+            {/* 👇 Image URL (টেক্সট বক্স) */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL</label>
+              <input type="url" name="image" value={formData.image} onChange={handleChange} className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" />
+            </div>
+
+            {/* 👇 Image Upload (Browse) */}
             <div className="md:col-span-2 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Update Studio Image (ImgBB)</label>
               <input 
@@ -124,12 +128,10 @@ export default function EditStudioPage() {
               />
               {uploading && <p className="text-sm text-purple-600 mt-2">Uploading image...</p>}
               
-              {/* ইমেজ প্রিভিউ */}
               {formData.image && (
                 <div className="mt-4">
-                  <p className="text-sm text-gray-500 mb-2">Current Image:</p>
+                  <p className="text-sm text-gray-500 mb-2">Image Preview:</p>
                   <img src={formData.image} alt="Preview" className="h-32 w-auto rounded-lg object-cover border border-gray-200" />
-                  <input type="hidden" name="image" value={formData.image} />
                 </div>
               )}
             </div>
