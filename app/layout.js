@@ -15,8 +15,7 @@ export const metadata = {
 };
 
 // 👇 আপনার Client ID এখানে থাকতে হবে
-const GOOGLE_CLIENT_ID = "394346198887-7anrknujthddujrk6v71d74momgkjh0u.apps.googleusercontent.com";
-
+const GOOGLE_CLIENT_ID = "276798488408-s6kvtma61rbess5c94kvc6k82k43eqmm.apps.googleusercontent.com";
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>

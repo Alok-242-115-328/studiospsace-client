@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthProvider";
 import { toast } from "sonner";
-import ThemeToggle from "./ThemeToggle"; // ThemeToggle ইম্পোর্ট
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -83,7 +83,6 @@ export default function Navbar() {
             {/* Right Side: Auth & Theme */}
             <div className="hidden md:flex items-center gap-4">
               
-              {/* থিম টগল বাটন */}
               <ThemeToggle /> 
               
               {user ? (
@@ -91,9 +90,13 @@ export default function Navbar() {
                 <div className="relative" ref={dropdownRef}>
                   <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center gap-3 focus:outline-none">
                     
-                    {/* লাইট পার্পল অ্যাভাটার */}
-                    <div className="w-10 h-10 rounded-full bg-purple-200 dark:bg-purple-900 text-purple-800 dark:text-purple-200 flex items-center justify-center font-bold text-lg border border-purple-300 dark:border-purple-700 shadow-sm">
-                      {user.name.charAt(0).toUpperCase()}
+                    {/* Google Avatar or Initial */}
+                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-purple-500 shadow-sm flex items-center justify-center bg-purple-200 dark:bg-purple-900 text-purple-800 dark:text-purple-200 font-bold text-lg">
+                      {user.photoURL ? (
+                        <img src={user.photoURL} alt="User Avatar" className="w-full h-full object-cover" />
+                      ) : (
+                        user.name.charAt(0).toUpperCase()
+                      )}
                     </div>
                     
                     <span className="font-semibold text-gray-700 dark:text-gray-200">{user.name}</span>
@@ -178,5 +181,6 @@ export default function Navbar() {
         </div>
       )}
     </>
+    
   );
 }

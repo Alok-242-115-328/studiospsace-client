@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "ui-avatars.com", // 👈 এটি নতুন যোগ করা হলো
+        hostname: "lh3.googleusercontent.com", // 👈 গুগলের ছবির জন্য নতুন যোগ করা হলো
       },
     ],
   },
