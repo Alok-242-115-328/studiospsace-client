@@ -29,15 +29,21 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleUpdateName = (e) => {
+    const handleUpdateName = async (e) => {
     e.preventDefault();
     if (!newName.trim()) {
       toast.error("Name cannot be empty");
       return;
     }
-    updateUser(newName);
-    toast.success("Name updated successfully!");
-    setIsModalOpen(false); 
+    
+    // updateUser ফাংশনটি await করা হলো
+    const success = await updateUser(newName);
+    
+    if (success) {
+      setIsModalOpen(false); 
+    } else {
+      toast.error("Failed to update name. Please try again.");
+    }
   };
 
   const navLinks = [
@@ -181,6 +187,6 @@ export default function Navbar() {
         </div>
       )}
     </>
-    
+
   );
 }
