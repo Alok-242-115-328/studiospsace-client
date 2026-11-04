@@ -12,14 +12,15 @@ export default function EditStudioPage() {
   const [uploading, setUploading] = useState(false);
   
   const [formData, setFormData] = useState({
-    title: "", category: "Photo Studio", hourlyRate: "", securityDeposit: "", maxCapacity: "", location: "", image: "", overview: ""
+    title: "", category: "Photo Studio", hourlyRate: "", securityDeposit: "", maxCapacity: "", location: "", image: "", overview: "", amenities: []
   });
 
   useEffect(() => {
     const fetchStudio = async () => {
       try {
         const res = await axios.get(`https://studiospsace-server.onrender.com/api/studios/${id}`);
-        setFormData(res.data);
+        // যদি ডাটাবেসে amenities না থাকে, তবে ডিফল্টভাবে ফাঁকা অ্যারে সেট হবে
+        setFormData({ ...res.data, amenities: res.data.amenities || [] });
       } catch (error) {
         toast.error("Failed to load studio details");
       } finally {
@@ -30,6 +31,17 @@ export default function EditStudioPage() {
   }, [id]);
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  // 👇 Amenities চেঞ্জ হ্যান্ডলার
+  const handleAmenityChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      amenities: checked 
+        ? [...prev.amenities, value] 
+        : prev.amenities.filter((item) => item !== value)
+    }));
+  };
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -111,13 +123,13 @@ export default function EditStudioPage() {
               <input type="number" name="maxCapacity" value={formData.maxCapacity} onChange={handleChange} required className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" />
             </div>
 
-            {/* 👇 Image URL (টেক্সট বক্স) */}
+            {/* Image URL */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL</label>
               <input type="url" name="image" value={formData.image} onChange={handleChange} className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" />
             </div>
 
-            {/* 👇 Image Upload (Browse) */}
+            {/* Image Upload */}
             <div className="md:col-span-2 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Update Studio Image (ImgBB)</label>
               <input 
@@ -134,6 +146,25 @@ export default function EditStudioPage() {
                   <img src={formData.image} alt="Preview" className="h-32 w-auto rounded-lg object-cover border border-gray-200" />
                 </div>
               )}
+            </div>
+
+            {/* 👇 Amenities Section */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Amenities</label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {["WiFi", "Lighting", "Air Conditioning", "Sound System", "Green Room", "Parking"].map((amenity) => (
+                  <label key={amenity} className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      value={amenity} 
+                      checked={formData.amenities?.includes(amenity) || false}
+                      onChange={handleAmenityChange} 
+                      className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    {amenity}
+                  </label>
+                ))}
+              </div>
             </div>
 
             <div className="md:col-span-2">

@@ -13,11 +13,21 @@ export default function AddStudioPage() {
   const [uploading, setUploading] = useState(false);
 
   const [formData, setFormData] = useState({
-    title: "", category: "Photo Studio", hourlyRate: "", securityDeposit: "", maxCapacity: "", location: "", image: "", overview: "",
+    title: "", category: "Photo Studio", hourlyRate: "", securityDeposit: "", maxCapacity: "", location: "", image: "", overview: "", amenities: []
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleAmenityChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      amenities: checked 
+        ? [...prev.amenities, value] 
+        : prev.amenities.filter((item) => item !== value)
+    }));
   };
 
   const handleImageUpload = async (e) => {
@@ -82,6 +92,7 @@ export default function AddStudioPage() {
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Studio Title</label>
               <input type="text" name="title" required onChange={handleChange} className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" placeholder="e.g. Grand Photography Studio" />
@@ -118,13 +129,13 @@ export default function AddStudioPage() {
               <input type="number" name="maxCapacity" required onChange={handleChange} className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" placeholder="10" />
             </div>
 
-            {/* 👇 Image URL (টেক্সট বক্স) */}
+            {/* Image URL */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Image URL</label>
               <input type="url" name="image" value={formData.image} onChange={handleChange} className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" placeholder="https://example.com/image.jpg" />
             </div>
 
-            {/* 👇 Image Upload (Browse) */}
+            {/* Image Upload */}
             <div className="md:col-span-2 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Or Upload Studio Image (ImgBB)</label>
               <input 
@@ -143,15 +154,37 @@ export default function AddStudioPage() {
               )}
             </div>
 
+            {/* Amenities */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Amenities</label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {["WiFi", "Lighting", "Air Conditioning", "Sound System", "Green Room", "Parking"].map((amenity) => (
+                  <label key={amenity} className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      value={amenity} 
+                      checked={formData.amenities?.includes(amenity) || false}
+                      onChange={handleAmenityChange} 
+                      className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    {amenity}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Detailed Overview */}
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Detailed Overview</label>
               <textarea name="overview" required onChange={handleChange} rows="4" className="w-full px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 outline-none" placeholder="Describe your studio..."></textarea>
             </div>
 
+            {/* Host Info */}
             <div className="md:col-span-2 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
               <p className="text-sm text-gray-600 dark:text-gray-300"><strong>Host Name:</strong> {user?.name}</p>
               <p className="text-sm text-gray-600 dark:text-gray-300"><strong>Host Email:</strong> {user?.email}</p>
             </div>
+
           </div>
 
           <button type="submit" disabled={loading || uploading} className="w-full py-3 mt-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition-colors shadow-md">
