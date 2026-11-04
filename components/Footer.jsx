@@ -60,6 +60,7 @@ export default function Footer() {
           </div>
 
                      {/* Newsletter Form */}
+             <div>
             <form 
               className="flex flex-col gap-2 mb-6"
               onSubmit={(e) => {
