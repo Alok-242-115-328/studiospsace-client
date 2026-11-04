@@ -164,12 +164,13 @@
 .avatar-glow {
   animation: avatar-glow 2s infinite alternate;
 }
+@import "tailwindcss";
 
-/* =========================================
-   Fix Chrome Autofill Background (Global)
-   ========================================= */
+/* ... এখানে আপনার আগের সব CSS (auth-card, purple-glow, ইত্যাদি) ... */
 
-/* ১. লাইট মোডের জন্য (সাদা ব্যাকগ্রাউন্ড, কালো টেক্সট) */
+/* ========================================= */
+/* Fix Chrome Autofill - Global (শেষে যোগ করুন) */
+/* ========================================= */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -180,7 +181,6 @@ select:-webkit-autofill {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-/* ২. ডার্ক মোডের জন্য (কালো/গ্রে ব্যাকগ্রাউন্ড, সাদা টেক্সট) */
 html.dark input:-webkit-autofill,
 html.dark input:-webkit-autofill:hover,
 html.dark input:-webkit-autofill:focus,
