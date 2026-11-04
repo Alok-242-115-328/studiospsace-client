@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { toast } from "sonner";
 export default function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-300 border-t border-gray-800 w-full overflow-hidden">
@@ -58,12 +59,15 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Newsletter & Socials */}
-          <div>
-            <h3 className="text-white font-semibold mb-4 uppercase tracking-wider text-sm">Newsletter</h3>
-            <p className="text-sm text-gray-400 mb-3">Subscribe to get the latest studio updates and offers.</p>
-            
-            <form className="flex flex-col gap-2 mb-6">
+                     {/* Newsletter Form */}
+            <form 
+              className="flex flex-col gap-2 mb-6"
+              onSubmit={(e) => {
+                e.preventDefault();
+                toast.success("Subscribed to newsletter successfully!");
+                e.target.reset();
+              }}
+            >
               <input 
                 type="email" 
                 placeholder="Enter your email" 

@@ -158,8 +158,8 @@ export default function StudioDetailsPage() {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Reviews ({studio.rating})</h2>
         <div className="space-y-4">
           {[
-            { name: "Rahim Ahmed", text: "Amazing studio! The lighting was perfect for my shoot.", rating: 5 },
-            { name: "Sara Khan", text: "Great space, very clean and the host was super helpful.", rating: 4 }
+            { name: "Jonkar BHAI", text: "Amazing studio! The lighting was perfect for my shoot.", rating: 5 },
+            { name: "Utsho BHAI", text: "Great space, very clean and the host was super helpful.", rating: 4 }
           ].map((review, index) => (
             <div key={index} className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800">
               <div className="flex items-center gap-3 mb-2">

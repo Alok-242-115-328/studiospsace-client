@@ -164,3 +164,29 @@
 .avatar-glow {
   animation: avatar-glow 2s infinite alternate;
 }
+
+/* =========================================
+   Fix Chrome Autofill Background (Global)
+   ========================================= */
+
+/* ১. লাইট মোডের জন্য (সাদা ব্যাকগ্রাউন্ড, কালো টেক্সট) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #111827 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ২. ডার্ক মোডের জন্য (কালো/গ্রে ব্যাকগ্রাউন্ড, সাদা টেক্সট) */
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover,
+html.dark input:-webkit-autofill:focus,
+html.dark textarea:-webkit-autofill,
+html.dark select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #1f2937 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
