@@ -6,7 +6,6 @@ import { toast } from "sonner";
 
 export default function Footer() {
   return (
-    // 👇 এখানে bg-white এবং dark:bg-gray-950 যোগ করা হলো
     <footer className="bg-white dark:bg-gray-950 text-gray-600 dark:text-gray-300 border-t border-gray-200 dark:border-gray-800 w-full overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         
@@ -22,7 +21,6 @@ export default function Footer() {
                 height={40}
                 className="rounded-xl object-cover"
               />
-              {/* 👇 টেক্সট কালার ডার্ক মোডে সাদা, লাইট মোডে কালো */}
               <span className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">
                 StudioSpace
               </span>
@@ -30,7 +28,25 @@ export default function Footer() {
             <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
               Our mission is to empower creators by connecting them with the perfect creative spaces. From photography studios to sound stages, we make finding and booking your next workspace seamless.
             </p>
+            
+            {/* 👇 নতুন যোগ করা হেল্পলাইন সেকশন */}
             <div className="pt-2">
+              <h3 className="text-gray-900 dark:text-white font-semibold mb-2 text-sm uppercase tracking-wider">Need Help?</h3>
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-xl">📞</span>
+                <a href="tel:+8801700000000" className="hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-colors">
+                  +880 1700-000000
+                </a>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <span className="text-xl">✉️</span>
+                <a href="mailto:support@studiospsace.com" className="hover:text-purple-600 dark:hover:text-purple-400 font-medium transition-colors">
+                  support@studiospsace.com
+                </a>
+              </div>
+            </div>
+
+            <div className="pt-4">
               <p className="text-xs text-gray-400 dark:text-gray-500">
                 © {new Date().getFullYear()} StudioSpace. All rights reserved.
                 <br />
@@ -76,7 +92,6 @@ export default function Footer() {
                 e.target.reset();
               }}
             >
-              {/* 👇 ইনপুট বক্সের কালার ডার্ক/লাইট মোডের জন্য */}
               <input 
                 type="email" 
                 placeholder="Enter your email" 
