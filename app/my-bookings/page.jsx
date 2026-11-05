@@ -38,7 +38,6 @@ export default function MyBookingsPage() {
     }
   };
 
-
   const handleConfirm = async (id) => {
     try {
       await axios.patch(`https://studiospsace-server.onrender.com/api/bookings/${id}`, { status: "Confirmed" });
@@ -112,12 +111,12 @@ export default function MyBookingsPage() {
                       </button>
                     </div>
                   )}
-              </div> {/* 👈 এই div টি মিসিং ছিল (flex-col items-end বন্ধ করার জন্য) */}
-              </div> {/* 👈 map ভেতরের div বন্ধ হলো */}
+                </div>
+              </div>
             ))}
-          </div> {/* 👈 space-y-4 div বন্ধ হলো */}
+          </div>
         )}
-      </div> {/* 👈 max-w-5xl div বন্ধ হলো */}
-    </div> {/* 👈 min-h-screen div বন্ধ হলো */}
+      </div>
+    </div>
   );
 }
