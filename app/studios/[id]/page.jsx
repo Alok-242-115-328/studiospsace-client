@@ -105,7 +105,7 @@ export default function StudioDetailsPage() {
     "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=1920&auto=format&fit=crop"
   ];
 
-  
+
   // টাইম ড্রপডাউনের অপশন
     // 👇 ৫ মিনিট ও ৩০ মিনিটের সব অপশন
   const timeOptions = [];
@@ -183,6 +183,33 @@ export default function StudioDetailsPage() {
           </button>
         </div>
       </div>
+
+
+
+      {/* 👇 Reviews Section */}
+      <div className="max-w-6xl mx-auto px-4 mt-12">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Reviews ({studio.rating})</h2>
+        <div className="space-y-4">
+          {[
+            { name: "Raj Das", text: "Amazing studio! The lighting was perfect for my shoot.", rating: 5 },
+            { name: "Sara Khan", text: "Great space, very clean and the host was super helpful.", rating: 4 }
+          ].map((review, index) => (
+            <div key={index} className="bg-white dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 transition-colors">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-full bg-purple-200 dark:bg-purple-900 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold">
+                  {review.name.charAt(0)}
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900 dark:text-white">{review.name}</h4>
+                  <p className="text-yellow-500 text-sm">{"⭐".repeat(review.rating)}</p>
+                </div>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400">{review.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
 
       {/* Booking Modal */}
       {isBookingModalOpen && (
