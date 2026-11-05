@@ -38,6 +38,17 @@ export default function MyBookingsPage() {
     }
   };
 
+
+  const handleConfirm = async (id) => {
+    try {
+      await axios.patch(`https://studiospsace-server.onrender.com/api/bookings/${id}`, { status: "Confirmed" });
+      toast.success("Booking confirmed successfully!");
+      setBookings(bookings.map(b => b._id === id ? { ...b, status: "Confirmed" } : b));
+    } catch (error) {
+      toast.error("Failed to confirm booking");
+    }
+  };
+
   if (!user) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
@@ -92,16 +103,21 @@ export default function MyBookingsPage() {
                   </span>
 
                   {booking.status === "Pending" && (
-                    <button onClick={() => handleCancel(booking._id)} className="text-sm text-red-600 dark:text-red-400 font-semibold hover:underline mt-2">
-                      Cancel Booking
-                    </button>
+                    <div className="flex flex-col gap-2">
+                      <button onClick={() => handleConfirm(booking._id)} className="text-sm text-green-600 dark:text-green-400 font-semibold hover:underline">
+                        Confirm (Host)
+                      </button>
+                      <button onClick={() => handleCancel(booking._id)} className="text-sm text-red-600 dark:text-red-400 font-semibold hover:underline">
+                        Cancel Booking
+                      </button>
+                    </div>
                   )}
-                </div>
-              </div>
+              </div> {/* 👈 এই div টি মিসিং ছিল (flex-col items-end বন্ধ করার জন্য) */}
+              </div> {/* 👈 map ভেতরের div বন্ধ হলো */}
             ))}
-          </div>
+          </div> {/* 👈 space-y-4 div বন্ধ হলো */}
         )}
-      </div>
-    </div>
+      </div> {/* 👈 max-w-5xl div বন্ধ হলো */}
+    </div> {/* 👈 min-h-screen div বন্ধ হলো */}
   );
 }
