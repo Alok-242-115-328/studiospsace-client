@@ -38,15 +38,25 @@ export default function MyBookingsPage() {
     }
   };
 
-  const handleConfirm = async (id) => {
+    const handleConfirm = async (id) => {
     try {
       await axios.patch(`https://studiospsace-server.onrender.com/api/bookings/${id}`, { status: "Confirmed" });
       toast.success("Booking confirmed successfully!");
       setBookings(bookings.map(b => b._id === id ? { ...b, status: "Confirmed" } : b));
     } catch (error) {
-      toast.error("Failed to confirm booking");
+      // 👇 এরর মেসেজটি দেখানো হলো
+      toast.error(error.response?.data?.message || "Failed to confirm booking");
+      
+      // 👇 যদি সার্ভার থেকে "cancelled" মেসেজ আসে, তবে UI-তেও Cancelled দেখানো হবে
+      if (error.response?.data?.message.includes("cancelled")) {
+        setBookings(bookings.map(b => b._id === id ? { ...b, status: "Cancelled" } : b));
+      }
     }
   };
+
+
+
+
 
   if (!user) {
     return (
