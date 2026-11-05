@@ -99,7 +99,15 @@ export default function MyBookingsPage() {
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">{booking.studioTitle}</h3>
                   <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">📅 Date: {booking.date}</p>
                   <p className="text-gray-500 dark:text-gray-400 text-sm">⏰ Time: {booking.time}</p>
+               
+
+                  
+                  {/* 👇 এই নতুন লাইনটি যোগ করুন (টোটাল প্রাইস দেখানোর জন্য) */}
+                  <p className="text-purple-600 dark:text-purple-400 font-bold text-lg mt-2">
+                    Total: ${booking.totalPrice}
+                  </p>
                 </div>
+
 
                 <div className="flex flex-col items-end gap-2 w-full md:w-auto">
                   <span className={`px-3 py-1 rounded-full text-xs font-bold ${

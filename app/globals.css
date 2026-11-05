@@ -190,3 +190,44 @@ html.dark select:-webkit-autofill {
   -webkit-text-fill-color: #ffffff !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+/* Light Purple Running Border for How It Works */
+.how-it-works-border {
+  position: relative;
+  padding: 3px; /* বর্ডারের পুরুত্ব */
+  border-radius: 1rem; /* rounded-2xl */
+  z-index: 1;
+  overflow: hidden; /* যাতে গ্রেডিয়েন্ট বাইরে না যায় */
+}
+
+.how-it-works-border::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0%,
+    transparent 50%,
+    #d8b4fe 70%, /* Light Purple */
+    #a855f7 90%, /* Deep Purple */
+    #d8b4fe 100%
+  );
+  animation: spin-border 3s linear infinite;
+  z-index: -1;
+}
+
+.how-it-works-inner {
+  background-color: #ffffff; /* Light Mode Background */
+  border-radius: calc(1rem - 3px);
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+html.dark .how-it-works-inner {
+  background-color: #020617; /* Dark Mode Background (gray-950) */
+}
